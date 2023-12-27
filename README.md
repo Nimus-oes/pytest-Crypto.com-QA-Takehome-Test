@@ -14,8 +14,9 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
 - Google Chrome
 - Mozilla Firefox
 
-# Test Scope and Limits
-This test suite is specific to ZIL/USDT trade pair only, and it cannot cover any other pairs. 
+## Test Scope and Limits
+- This test suite is specific to ZIL/USDT trade pair only, and it cannot cover any other pairs. 
+- There are two ways to access favorites items for testing: (1) logging in to an account and accessing its favorite items, (2) adding the item to favorites and accessing the favorites. This test suite does not cover the option 1.
 
 ## Step 1: Defining the Behaviors
 1. Given: the markets page is displayed
@@ -51,11 +52,11 @@ There are different UI elements on crypto.com/exchange/markets that users can cl
 - `tests` contains the shared fixtures and the test cases
 
 ## Step 4: Implementing Test Cases
-1. [TODO] Create page objects for markets and spot pair page
-2. [TODO] Initialize a simple WebDriver instance with fixture and open crypto.com/exchange/markets page with it
-3. [TODO] Take one of the entry points to the trade page and implement it with code
+1. Create page objects for markets and spot pair page
+2. Initialize a simple WebDriver instance with fixture and open crypto.com/exchange/markets page with it
+3. Take one of the entry points to the trade page and implement it with code
    - Locate the 'USDT' navigation menu and click the ZIL/USDT pair item under it
-4. [TODO] Verify the redirected page
+4. Verify the redirected page
    - The page contains 'ZIL_USDT' in its url path
    - The page title contains 'ZIL/USDT'
    - The toggle menu on top of the page refers to 'ZIL/USDT'

@@ -1,6 +1,8 @@
 """
-This module contains shared fixtures
+This module contains shared fixtures.
+This test does not support headless browsers due to the access restriction over VPN
 """
+
 import pytest
 import selenium.webdriver
 
@@ -8,6 +10,5 @@ import selenium.webdriver
 @pytest.fixture
 def browser():
     b = selenium.webdriver.Chrome()
-    b.implicitly_wait(10)
     yield b
     b.quit()
