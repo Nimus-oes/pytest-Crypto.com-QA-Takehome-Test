@@ -12,7 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class ExchangeMarketsPage:
     # Base Page URL
-    # This page is accessible from certain countries only. VPN required.
+    # This page_obj is accessible from certain countries only. VPN required.
     URL = "https://www.crypto.com/exchange/markets"
 
     # Locators
@@ -84,3 +84,20 @@ class ExchangeMarketsPage:
     def zil_pair(self):
         zil = self.browser.find_element(*self.ZIL_USDT_PAIR_ITEM)
         zil.send_keys(Keys.RETURN)
+
+    # This is a helper method to integrate common steps into test cases
+    def verify_base_page(self):
+        # -------------------------Common Steps----------------------------
+        # @Given the markets page is displayed
+        self.load()
+        # (1) Verify the base page url contains 'markets'
+        assert 'markets' in self.url(), "Markets page not accessible"
+        # (2) Verify the default market tab is set to 'Spot'
+        assert 'Spot' in self.spot_tab(), "Spot market tab is not active"
+        # -----------------------------------------------------------------
+
+        # @When the user clicks UI to get into ZIL/USDT page
+        # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+        # @And the page contains 'ZIL_USDT' in its url path
+        # @And the page title contains 'ZIL/USDT'
+

@@ -34,3 +34,16 @@ class TradePairPage:
         # After loading all elements, find the element
         toggle = self.browser.find_element(*self.TOP_PAIR_TOGGLE)
         return toggle.text
+
+    # This is a helper method to integrate common steps into test cases
+    def verify_pair_page(self):
+        # @Given the markets page is displayed
+        # @When the user clicks UI to get into ZIL/USDT page
+
+        # -------------------------Common Steps----------------------------
+        # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+        assert 'ZIL/USD' in self.top_pair(), "The pair not found on toggle menu"
+        # @And the page contains 'ZIL_USDT' in its url path
+        assert 'ZIL_USD' in self.page_url(), "The pair URL not found"
+        # @And the page title contains 'ZIL/USDT'
+        assert 'ZIL/USD' in self.page_title(), "The pair not found on page_obj title"
