@@ -12,18 +12,18 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class ExchangeMarketsPage:
     # Base Page URL
-    # This page_obj is accessible from certain countries only. VPN required.
+    # This page is accessible from certain countries only. VPN required.
     URL = "https://www.crypto.com/exchange/markets"
 
     # Locators
+    COOKIES = (By.CSS_SELECTOR, "[title='Accept Cookies']")
     SPOT_TAB = (By.CSS_SELECTOR, "button[class*='e-button--medium is-text active']")
     USDT_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='USDT']")
     ALL_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='All']")
     FAVORITES_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='Favorites']")
     FAVORITES_ICON = (By.XPATH, "//*[name()='svg' and following-sibling::div/a[@href='/exchange/trade/ZIL_USDT']]")
-    # FAVORITES_ICON = (By.XPATH, "//*[local-name()='svg' and following-sibling::div/a[@href='/exchange/trade/BTC_USD']]/descendant::*[local-name()='use']")
-    CATEGORIES_TOGGLE = ()
-    ZIL_USDT_CATEGORY = ()
+    CATEGORIES_TOGGLE = (By.XPATH, "//div[@class='text']")
+    ZIL_USDT_CATEGORY = (By.XPATH, "//div[@class='category'][contains(., 'L1/L2/Polkadot Parachains')]")
     ZIL_USDT_PAIR_ITEM = (By.XPATH, "//a[@href='/exchange/trade/ZIL_USDT'][.//span[@class='base'][text()='ZIL']]")
     TOP_SEARCH = ()
     TOP_SEARCH_SPOT = ()
@@ -77,8 +77,13 @@ class ExchangeMarketsPage:
     def fav_nav(self):
         fav = self.browser.find_element(*self.FAVORITES_NAV)
         self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
-        WebDriverWait(self.browser, 5).until(EC.visibility_of_element_located(self.FAVORITES_ICON))
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.FAVORITES_ICON))
         fav.click()
+
+    def cookies(self):
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.COOKIES))
+        ck = self.browser.find_element(*self.COOKIES)
+        ck.send_keys(Keys.RETURN)
 
     # Find and click ZIL/USDT pair item
     def zil_pair(self):
