@@ -24,10 +24,11 @@ class ExchangeMarketsPage:
     FAVORITES_ICON = (By.XPATH, "//*[name()='svg' and following-sibling::div/a[@href='/exchange/trade/ZIL_USDT']]")
     CATEGORIES_TOGGLE = (By.XPATH, "//div[@class='text']")
     ZIL_USDT_CATEGORY = (By.XPATH, "//div[@class='category'][contains(., 'L1/L2/Polkadot Parachains')]")
-    ZIL_USDT_PAIR_ITEM = (By.XPATH, "//a[@href='/exchange/trade/ZIL_USDT'][.//span[@class='base'][text()='ZIL']]")
-    TOP_SEARCH = ()
-    TOP_SEARCH_SPOT = ()
-    ZIL_USDT_PAIR_SEARCH = ()
+    ZIL_USDT_PAIR_MAIN = (By.XPATH, "//a[@href='/exchange/trade/ZIL_USDT'][.//span[@class='base'][text()='ZIL']]")
+    TOP_SEARCH_ICON = (By.XPATH, "//*[name()='svg' and @class='e-icon e-icon-search']")
+    TOP_SEARCH_ALL = (By.XPATH, "//div[@class='e-tabs tabs']/div/div[@class='e-tabs__nav-item active']/span")
+    TOP_SEARCH_SPOT = (By.XPATH, "//div[@class='e-tabs__nav-item spot-beta-tab-item']/span")
+    ZIL_USDT_PAIR_SEARCH = (By.XPATH, "//div[@class='group-item']/a[@href='/exchange/trade/ZIL_USDT']/div[text()='ZIL/USDT']")
     BURGER_MEU = ()
     TRADE_HEADER_MOBILE = ()
     SPOT_HEADER_MOBILE = ()
@@ -46,12 +47,17 @@ class ExchangeMarketsPage:
     def load(self):
         self.browser.get(self.URL)
 
+    # Dismiss the cookie window
+    def cookies(self):
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.COOKIES))
+        ck = self.browser.find_element(*self.COOKIES)
+        ck.send_keys(Keys.RETURN)
+
     # Resources to verify the base page
     def url(self):
         return self.browser.current_url
 
     # Resources to verify the Spot market tab
-    # TODO Add explicit wait here
     def spot_tab(self):
         spot = self.browser.find_element(*self.SPOT_TAB)
         return spot.text
@@ -80,24 +86,41 @@ class ExchangeMarketsPage:
         WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.FAVORITES_ICON))
         fav.click()
 
-    def cookies(self):
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.COOKIES))
-        ck = self.browser.find_element(*self.COOKIES)
-        ck.send_keys(Keys.RETURN)
+    # Find and click the top search icon
+    def top_search_icon(self):
+        ts = self.browser.find_element(*self.TOP_SEARCH_ICON)
+        ActionChains(self.browser).move_to_element(ts).perform()
 
-    # Find and click ZIL/USDT pair item
-    def zil_pair(self):
-        zil = self.browser.find_element(*self.ZIL_USDT_PAIR_ITEM)
+    # Resources to verify the 'All' market tab in the top search section
+    def top_search_all(self):
+        market = self.browser.find_element(*self.TOP_SEARCH_ALL)
+        return market.text
+
+    # Find and click Spot market tab from the top search section
+    def top_search_spot(self):
+        spot = self.browser.find_element(*self.TOP_SEARCH_SPOT)
+        spot.click()
+
+    # Find and click ZIL/USDT pair item from the list on markets page
+    def zil_pair_main(self):
+        zil = self.browser.find_element(*self.ZIL_USDT_PAIR_MAIN)
         zil.send_keys(Keys.RETURN)
+
+    # Find and click ZIL/USDT pair item from the top search section
+    def zil_pair_search(self):
+        zil = self.browser.find_element(*self.ZIL_USDT_PAIR_SEARCH)
+        zil.click()
 
     # This is a helper method to integrate common steps into test cases
     def verify_base_page(self):
         # -------------------------Common Steps----------------------------
         # @Given the markets page is displayed
         self.load()
-        # (1) Verify the base page url contains 'markets'
+        # (1) Dismiss the cookies window
+        self.cookies()
+        # (2) Verify the base page url contains 'markets'
         assert 'markets' in self.url(), "Markets page not accessible"
-        # (2) Verify the default market tab is set to 'Spot'
+        # (3) Verify the default market tab is set to 'Spot'
         assert 'Spot' in self.spot_tab(), "Spot market tab is not active"
         # -----------------------------------------------------------------
 

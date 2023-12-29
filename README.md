@@ -1,36 +1,35 @@
 # Crypto.com-QA-Takehome-Test
 
 ## Test Target
-Navigating to ZIL/USDT page from crypto.com/exchange/markets
-
+Navigating to ZIL/USDT page from crypto.com/exchange/markets  
+&nbsp;
 ## Test Methodology
-- Behavior Driven Development
-
+- Behavior Driven Development  
+&nbsp;
 ## Tech Stack
 - Python
 - pytest
-- Selenium
-
+- Selenium  
+&nbsp;
 ## Supported Browser
 - Google Chrome
-- Mozilla Firefox is *not supported* due to markets page access issue
-
+- Mozilla Firefox is *not supported* due to markets page access issue  
+&nbsp;
 ## Test Scope and Limits
-- This test suite is specific to ZIL/USDT trade pair only, and it cannot cover any other pairs. 
+- This test suite is specific to ZIL/USDT trade pair only, and it does cover any other pairs. 
 - There are two ways to access favorites items for testing: (1) logging in to an account and accessing its favorite items, (2) adding the item to favorites and accessing the favorites. This test suite does not cover the option 1.
-
-___
-
-===========================================================
-
+- This test suite does not cover the 'Categories' option due to the technical issue  
+&nbsp;
+___  
+&nbsp;
 ## Step 1: Defining the Behaviors
 1. Given: the markets page is displayed
 2. When: the user clicks UI to get into ZIL/USDT page
    - The test can be separated into multiple test cases as per the different entry points
 3. Then: the redirected page contains 'ZIL_USDT' in its url path
 4. And: the page title contains 'ZIL/USDT'
-5. And: the toggle menu on top of the page refers to 'ZIL/USDT'
-
+5. And: the toggle menu on top of the page refers to 'ZIL/USDT  
+&nbsp;
 ## Step 2: Identifying the Entry Points
 There are different UI elements on crypto.com/exchange/markets that users can click on to access the ZIL/USDT page.
 
@@ -50,12 +49,12 @@ There are different UI elements on crypto.com/exchange/markets that users can cl
   - For mobile (under 992 px): Click 'Trade' of the mobile footer menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
   - For mobile (under 992 px): Click 'Trade' of the mobile footer menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)
   - For desktop (over 991 px): Click 'Spot' under the 'Trade' of the footer menu > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
-  - For desktop (over 991 px): Click 'Spot' under the 'Trade' of the footer menu > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)
-
+  - For desktop (over 991 px): Click 'Spot' under the 'Trade' of the footer menu > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)   
+&nbsp;
 ## Step 3: Designing Test Suite Structure
 - `pages` contains the page objects for the markets and spot pair pages
-- `tests` contains the shared fixtures and the test cases
-
+- `tests` contains the shared fixtures and the test cases  
+&nbsp;
 ## Step 4: Implementing Test Cases
 1. Create page objects for markets and spot pair page
 2. Initialize a simple WebDriver instance with fixture and open crypto.com/exchange/markets page with it
@@ -65,14 +64,18 @@ There are different UI elements on crypto.com/exchange/markets that users can cl
    - The page contains 'ZIL_USDT' in its url path
    - The page title contains 'ZIL/USDT'
    - The toggle menu on top of the page refers to 'ZIL/USDT'
-5. [TODO] Implement other test cases, reusing the common steps
-
+5. [TODO] Implement other test cases, reusing the common steps  
+&nbsp;
 ## How to Handle ElementNotInteractableException
 During the test development, I found many errors related to Element Not Interactable Exception whenever the browser tries to interact with the elements. There are three major solutions to tackle this exception.
 1. Explicitly wait for the element to be interactable. Try adding more conditions for the wait if one is not enough.
 ```
 from selenium.webdriver.support import expected_conditions as EC
-WebDriverWait(driver, 10).until(EC.element_to_be_clickable(ELEMENT_LOCATOR) and EC.element_to_be_clickable(ELEMENT_LOCATOR))
+WebDriverWait(driver, 10).until(EC.element_to_be_clickable(ELEMENT_LOCATOR))
+```
+```
+from selenium.webdriver.support import expected_conditions as EC
+WebDriverWait(driver, 10).until(EC.visibility_of_element_located(ELEMENT_LOCATOR) and EC.element_to_be_clickable(ELEMENT_LOCATOR))
 ```
 2. Scroll the element into viewport. If the element is not visible enough due to the position on the page, scroll it into the center of viewport.
 ```
@@ -95,8 +98,8 @@ driver.execute_script("arguments[0].click();", element)
 ```
 from selenium.webdriver.common.action_chains import ActionChains
 ActionChains(driver).move_to_element(element).click().perform()
-```
-
+```   
+&nbsp;
 ## How to Find an SVG Element with XPath
 In order to interact with an SVG element via XPath in Selenium, `name()` or `local-name()` method should be called. 
 ```
@@ -104,8 +107,8 @@ In order to interact with an SVG element via XPath in Selenium, `name()` or `loc
 ```
 ```
 //*[local-name()=query]
-```
-
+```   
+&nbsp;
 ## Challenges and Solutions
 1. Markets page is not accessible presumably due to the geo restrictions from South Korea
 > **Solution**: Used VPN for testing. This resolved the access issue with Chrome browser, however, the issue still remains with Firefox even with VPN.

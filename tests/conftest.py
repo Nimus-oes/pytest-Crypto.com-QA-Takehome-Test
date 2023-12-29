@@ -10,5 +10,6 @@ import selenium.webdriver
 @pytest.fixture
 def browser():
     b = selenium.webdriver.Chrome()
+    b.set_window_size(1200, 891)
     yield b
     b.quit()
