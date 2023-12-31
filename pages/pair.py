@@ -6,14 +6,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 
 
 class TradePairPage:
     # Locators
     TOP_PAIR_TOGGLE = (By.CSS_SELECTOR, "div.toggle")
-    USDT_NAV = ()
-    FAVORITES_NAV = ()
-    ZIL_USDT_PAIR = ()
+    TOGGLE_USDT_NAV = (By.XPATH, "//div[@class='e-tabs__nav plain']/div/span[text()='USDT']")
+    FAVORITES_ICON = (By.XPATH, "//div[@role='listitem']/a[@href='/exchange/trade/ZIL_USDT']/div/*[name()='svg']")
+    FAVORITES_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='Favorites']")
+    DROPDOWN_BOX = (By.XPATH, "//div[@class='virtual-list custom-scrollbar']")
+    ZIL_USDT_PAIR = (By.XPATH, "//a[@href='/exchange/trade/ZIL_USDT']")
 
     # Initializer
     def __init__(self, browser):
@@ -28,22 +32,37 @@ class TradePairPage:
         return self.browser.current_url
 
     # Resources to verify the top toggle menu refers to 'ZIL/USDT'
-    def top_pair(self):
+    def top_pair(self, action):
         # Wait for the top toggle menu
-        WebDriverWait(self.browser, 10).until(EC.text_to_be_present_in_element(self.TOP_PAIR_TOGGLE, 'ZIL/USD'))
+        WebDriverWait(self.browser, 20).until(EC.text_to_be_present_in_element(self.TOP_PAIR_TOGGLE, '/'))
         # After loading all elements, find the element
         toggle = self.browser.find_element(*self.TOP_PAIR_TOGGLE)
-        return toggle.text
+        if action == 'verify':
+            return toggle.text
+        elif action == 'select':
+            ActionChains(self.browser).move_to_element(toggle).perform()
 
-    # This is a helper method to integrate common steps into test cases
-    def verify_pair_page(self):
-        # @Given the markets page is displayed
-        # @When the user clicks UI to get into ZIL/USDT page
+    # Find and click USDT nav menu inside the pair toggle
+    def usdt_nav(self):
+        nav = self.browser.find_element(*self.TOGGLE_USDT_NAV)
+        nav.click()
 
-        # -------------------------Common Steps----------------------------
-        # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
-        assert 'ZIL/USD' in self.top_pair(), "The pair not found on toggle menu"
-        # @And the page contains 'ZIL_USDT' in its url path
-        assert 'ZIL_USD' in self.page_url(), "The pair URL not found"
-        # @And the page title contains 'ZIL/USDT'
-        assert 'ZIL/USD' in self.page_title(), "The pair not found on page_obj title"
+    def add_fav(self):
+        box = self.browser.find_element(*self.DROPDOWN_BOX)
+        self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", box)
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_any_elements_located(self.ZIL_USDT_PAIR))
+        star = self.browser.find_element(*self.FAVORITES_ICON)
+        star.click()
+
+    def fav_nav(self):
+        fav = self.browser.find_element(*self.FAVORITES_NAV)
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.ZIL_USDT_PAIR))
+        fav.click()
+
+    def zil_pair_toggle(self):
+        box = self.browser.find_element(*self.DROPDOWN_BOX)
+        self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", box)
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_any_elements_located(self.ZIL_USDT_PAIR))
+        zil = self.browser.find_element(*self.ZIL_USDT_PAIR)
+        zil.click()
+

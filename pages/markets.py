@@ -29,15 +29,13 @@ class ExchangeMarketsPage:
     TOP_SEARCH_ALL = (By.XPATH, "//div[@class='e-tabs tabs']/div/div[@class='e-tabs__nav-item active']/span")
     TOP_SEARCH_SPOT = (By.XPATH, "//div[@class='e-tabs__nav-item spot-beta-tab-item']/span")
     ZIL_USDT_PAIR_SEARCH = (By.XPATH, "//div[@class='group-item']/a[@href='/exchange/trade/ZIL_USDT']/div[text()='ZIL/USDT']")
-    BURGER_MEU = ()
-    TRADE_HEADER_MOBILE = ()
-    SPOT_HEADER_MOBILE = ()
-    TRADE_HEADER_DESKTOP = ()
-    SPOT_HEADER_DESKTOP = ()
-    TRADE_FOOTER_MOBILE = ()
-    SPOT_FOOTER_MOBILE = ()
-    TRADE_FOOTER_DESKTOP = ()
-    SPOT_FOOTER_DESKTOP = ()
+    TRADE_HEADER_DESKTOP = (By.XPATH, "//button[@class='link-btn e-button e-button--primary e-button--default is-text'][contains(., 'Trade')]")
+    SPOT_HEADER_DESKTOP = (By.XPATH, "//div[@class='sub-menu']/a[@href='/exchange/trade?type=spot']")
+    BURGER_MENU = (By.XPATH, "//*[name()='svg' and @class='e-icon e-icon-burger pointer']")
+    TRADE_HEADER_MOBILE = (By.XPATH, "//span[@class='menu-name' and text()='Trade']")
+    SPOT_HEADER_MOBILE = (By.XPATH, "//span[@class='sub-menu-name' and text()='Spot']")
+    MOBILE_MENU = (By.CLASS_NAME, "mobile-menu")
+    SPOT_FOOTER_DESKTOP = (By.XPATH, "//a[@href='/exchange/trade?type=spot' and @class='sub-title']")
 
     # Initializer
     def __init__(self, browser):
@@ -111,21 +109,32 @@ class ExchangeMarketsPage:
         zil = self.browser.find_element(*self.ZIL_USDT_PAIR_SEARCH)
         zil.click()
 
-    # This is a helper method to integrate common steps into test cases
-    def verify_base_page(self):
-        # -------------------------Common Steps----------------------------
-        # @Given the markets page is displayed
-        self.load()
-        # (1) Dismiss the cookies window
-        self.cookies()
-        # (2) Verify the base page url contains 'markets'
-        assert 'markets' in self.url(), "Markets page not accessible"
-        # (3) Verify the default market tab is set to 'Spot'
-        assert 'Spot' in self.spot_tab(), "Spot market tab is not active"
-        # -----------------------------------------------------------------
+    # Find and click Trader header nav from desktop
+    def header_nav_trade_desktop(self):
+        trade = self.browser.find_element(*self.TRADE_HEADER_DESKTOP)
+        ActionChains(self.browser).move_to_element(trade).perform()
 
-        # @When the user clicks UI to get into ZIL/USDT page
-        # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
-        # @And the page contains 'ZIL_USDT' in its url path
-        # @And the page title contains 'ZIL/USDT'
+    # Find and click Spot header nav from desktop
+    def header_nav_spot_desktop(self):
+        spot = self.browser.find_element(*self.SPOT_HEADER_DESKTOP)
+        spot.click()
 
+    # Find and click burger menu icon from mobile
+    def header_burger_mobile(self):
+        burger = self.browser.find_element(*self.BURGER_MENU)
+        burger.click()
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.TRADE_HEADER_MOBILE))
+
+    # Find and click Trader header nav from mobile
+    def header_nav_trade_mobile(self):
+        trade = self.browser.find_element(*self.TRADE_HEADER_MOBILE)
+        trade.click()
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.SPOT_HEADER_MOBILE))
+
+    # Find and click Spot header nav from mobile
+    def header_nav_spot_mobile(self):
+        spot = self.browser.find_element(*self.SPOT_HEADER_MOBILE)
+        spot.click()
+
+    def set_window(self):
+        self.browser.set_window_size(360, 800)

@@ -13,6 +13,28 @@ from pages.pair import TradePairPage
 import pytest
 
 
+# This is a method for common steps to verify the base page
+def verify_base_page(markets_page):
+    # @Given the markets page is displayed
+    markets_page.load()
+    # (1) Dismiss the cookies window
+    markets_page.cookies()
+    # (2) Verify the base page url contains 'markets'
+    assert 'markets' in markets_page.url(), "Markets page not accessible"
+    # (3) Verify the default market tab is set to 'Spot'
+    assert 'Spot' in markets_page.spot_tab(), "Spot market tab is not active"
+
+
+# This is a method for common steps to verify the pair page
+def verify_pair_page(pair_page):
+    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+    assert 'ZIL/USDT' in pair_page.top_pair('verify'), "The pair not found on toggle menu"
+    # @And the page contains 'ZIL_USDT' in its url path
+    assert 'ZIL_USDT' in pair_page.page_url(), "The pair URL not found"
+    # @And the page title contains 'ZIL/USDT'
+    assert 'ZIL/USDT' in pair_page.page_title(), "The pair not found on page title"
+
+
 @pytest.mark.parametrize('nav', ['USDT', 'All', 'Favorites'])
 def test_by_nav_items(browser, nav):
     # Initialize market page object
@@ -23,7 +45,7 @@ def test_by_nav_items(browser, nav):
     # (1) Dismiss the cookies window
     # (2) Verify the base page url contains 'markets'
     # (3) Verify the default market tab is set to 'Spot'
-    markets_page.verify_base_page()
+    verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
     # (1) Find and click the navigation menu
@@ -44,7 +66,7 @@ def test_by_nav_items(browser, nav):
     # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
     # @And the page contains 'ZIL_USDT' in its url path
     # @And the page title contains 'ZIL/USDT'
-    pair_page.verify_pair_page()
+    verify_pair_page(pair_page)
 
 
 @pytest.mark.parametrize('market', ['All', 'Spot'])
@@ -57,7 +79,7 @@ def test_by_search_section(browser, market):
     # (1) Dismiss the cookies window
     # (2) Verify the base page url contains 'markets'
     # (3) Verify the default market tab is set to 'Spot'
-    markets_page.verify_base_page()
+    verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
     # (1) Find and click search icon on top
@@ -75,12 +97,138 @@ def test_by_search_section(browser, market):
     # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
     # @And the page contains 'ZIL_USDT' in its url path
     # @And the page title contains 'ZIL/USDT'
-    pair_page.verify_pair_page()
+    verify_pair_page(pair_page)
 
 
-def test_by_header_nav(browser):
-    pass
+def test_by_header_nav_desktop(browser):
+    # Initialize market page object
+    markets_page = ExchangeMarketsPage(browser)
+    pair_page = TradePairPage(browser)
+
+    # @Given the markets page is displayed
+    # (1) Dismiss the cookies window
+    # (2) Verify the base page url contains 'markets'
+    # (3) Verify the default market tab is set to 'Spot'
+    verify_base_page(markets_page)
+
+    # @When the user clicks UI to get into ZIL/USDT page
+    # (1) Find and click Trader header nav menu
+    markets_page.header_nav_trade_desktop()
+    # (2) Find and click Spot sub header menu under Trade
+    markets_page.header_nav_spot_desktop()
+    # (3) Find and click the toggle menu on top to change the pair item
+    pair_page.top_pair('select')
+    # (4) Find and click the USDT navigation tab
+    pair_page.usdt_nav()
+    # (5) Find and click ZIL/USDT pair item
+    pair_page.zil_pair_toggle()
+
+    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+    # @And the page contains 'ZIL_USDT' in its url path
+    # @And the page title contains 'ZIL/USDT'
+    verify_pair_page(pair_page)
 
 
-def test_by_footer_nav(browser):
-    pass
+def test_by_header_nav_mobile(browser):
+    # Initialize market page object
+    markets_page = ExchangeMarketsPage(browser)
+    pair_page = TradePairPage(browser)
+
+    # Set the window size to mobile
+    markets_page.set_window()
+
+    # @Given the markets page is displayed
+    # (1) Dismiss the cookies window
+    # (2) Verify the base page url contains 'markets'
+    # (3) Verify the default market tab is set to 'Spot'
+    verify_base_page(markets_page)
+
+    # @When the user clicks UI to get into ZIL/USDT page
+    # (1) Find and click the burger menu icon
+    markets_page.header_burger_mobile()
+    # (2) Find and click the Trade header nav
+    markets_page.header_nav_trade_mobile()
+    # (3) Find and click the Spot sub header menu under Trade
+    markets_page.header_nav_spot_mobile()
+    # (4) Find and click the toggle menu on top to change the pair item
+    pair_page.top_pair('select')
+    # (5) Find and click the USDT navigation tab
+    pair_page.usdt_nav()
+    # (6) Find and click ZIL/USDT pair item
+    pair_page.zil_pair_toggle()
+
+    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+    # @And the page contains 'ZIL_USDT' in its url path
+    # @And the page title contains 'ZIL/USDT'
+    verify_pair_page(pair_page)
+
+
+def test_by_toggle_fav_desktop(browser):
+    # Initialize market page object
+    markets_page = ExchangeMarketsPage(browser)
+    pair_page = TradePairPage(browser)
+
+    # @Given the markets page is displayed
+    # (1) Dismiss the cookies window
+    # (2) Verify the base page url contains 'markets'
+    # (3) Verify the default market tab is set to 'Spot'
+    verify_base_page(markets_page)
+
+    # @When the user clicks UI to get into ZIL/USDT page
+    # (1) Find and click Trader header nav menu
+    markets_page.header_nav_trade_desktop()
+    # (2) Find and click Spot sub header menu under Trade
+    markets_page.header_nav_spot_desktop()
+    # (3) Find and click the toggle menu on top to change the pair item
+    pair_page.top_pair('select')
+    # (4) Find and click the USDT navigation tab where ZIL/USDT pair is located
+    pair_page.usdt_nav()
+    # (5) Find and click favorite star icon to add the pair to the favorites
+    pair_page.add_fav()
+    # (6) Find and click the Favorites navigation tab
+    pair_page.fav_nav()
+    # (7) Find and click ZIL/USDT pair item
+    pair_page.zil_pair_toggle()
+
+    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+    # @And the page contains 'ZIL_USDT' in its url path
+    # @And the page title contains 'ZIL/USDT'
+    verify_pair_page(pair_page)
+
+
+def test_by_toggle_fav_mobile(browser):
+    # Initialize market page object
+    markets_page = ExchangeMarketsPage(browser)
+    pair_page = TradePairPage(browser)
+
+    # Set the window size to mobile
+    markets_page.set_window()
+
+    # @Given the markets page is displayed
+    # (1) Dismiss the cookies window
+    # (2) Verify the base page url contains 'markets'
+    # (3) Verify the default market tab is set to 'Spot'
+    verify_base_page(markets_page)
+
+    # @When the user clicks UI to get into ZIL/USDT page
+    # (1) Find and click the burger menu icon
+    markets_page.header_burger_mobile()
+    # (2) Find and click the Trade header nav
+    markets_page.header_nav_trade_mobile()
+    # (3) Find and click the Spot sub header menu under Trade
+    markets_page.header_nav_spot_mobile()
+    # (4) Find and click the toggle menu on top to change the pair item
+    pair_page.top_pair('select')
+    # (5) Find and click the USDT navigation tab where ZIL/USDT pair is located
+    pair_page.usdt_nav()
+    # (6) Find and click favorite star icon to add the pair to the favorites
+    pair_page.add_fav()
+    # (7) Find and click the Favorites navigation tab
+    pair_page.fav_nav()
+    # (8) Find and click ZIL/USDT pair item
+    pair_page.zil_pair_toggle()
+
+    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
+    # @And the page contains 'ZIL_USDT' in its url path
+    # @And the page title contains 'ZIL/USDT'
+    verify_pair_page(pair_page)
