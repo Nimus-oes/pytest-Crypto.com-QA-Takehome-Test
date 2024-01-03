@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
+
 class ExchangeMarketsPage:
     # Base Page URL
     # This page is accessible from certain countries only. VPN required.
@@ -41,6 +42,11 @@ class ExchangeMarketsPage:
     def __init__(self, browser):
         self.browser = browser
 
+    #----------------MARKETS PAGE MAIN SECTION----------------#
+    # Set the window size to mobile
+    def set_mobile_window(self):
+        self.browser.set_window_size(360, 800)
+
     # Load the base page - crypto.com/exchange/markets
     def load(self):
         self.browser.get(self.URL)
@@ -51,11 +57,11 @@ class ExchangeMarketsPage:
         ck = self.browser.find_element(*self.COOKIES)
         ck.send_keys(Keys.RETURN)
 
-    # Resources to verify the base page
+    # Resources to verify the base page url
     def url(self):
         return self.browser.current_url
 
-    # Resources to verify the Spot market tab
+    # Resources to verify the default market of base page is set to Spot
     def spot_tab(self):
         spot = self.browser.find_element(*self.SPOT_TAB)
         return spot.text
@@ -70,20 +76,29 @@ class ExchangeMarketsPage:
         nav_all = self.browser.find_element(*self.ALL_NAV)
         nav_all.click()
 
-    # Find and click favorite icon to add the pair to favorite section
-    def add_favorite(self):
+    # Find and click Favorites navigation menu
+    def fav_nav(self):
+        fav = self.browser.find_element(*self.FAVORITES_NAV)
+        self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
+        try:
+            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.FAVORITES_NAV))
+        except:
+            time.sleep(3)
+        fav.click()
+
+    # Find and click favorite icon next to ZIL/USDT pair to add to favorites
+    def add_to_favorites(self):
         star = self.browser.find_element(*self.FAVORITES_ICON)
         self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", star)
         time.sleep(2)
         star.click()
 
-    # Find and click Favorites navigation menu
-    def fav_nav(self):
-        fav = self.browser.find_element(*self.FAVORITES_NAV)
-        self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
-        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.FAVORITES_ICON))
-        fav.click()
+    # Find and click ZIL/USDT pair item from the list on markets page
+    def zil_pair_main(self):
+        zil = self.browser.find_element(*self.ZIL_USDT_PAIR_MAIN)
+        zil.send_keys(Keys.RETURN)
 
+    #----------------TOP SEARCH SECTION----------------#
     # Find and click the top search icon
     def top_search_icon(self):
         ts = self.browser.find_element(*self.TOP_SEARCH_ICON)
@@ -99,22 +114,18 @@ class ExchangeMarketsPage:
         spot = self.browser.find_element(*self.TOP_SEARCH_SPOT)
         spot.click()
 
-    # Find and click ZIL/USDT pair item from the list on markets page
-    def zil_pair_main(self):
-        zil = self.browser.find_element(*self.ZIL_USDT_PAIR_MAIN)
-        zil.send_keys(Keys.RETURN)
-
     # Find and click ZIL/USDT pair item from the top search section
     def zil_pair_search(self):
         zil = self.browser.find_element(*self.ZIL_USDT_PAIR_SEARCH)
         zil.click()
 
-    # Find and click Trader header nav from desktop
+    #----------------HEADER NAV SECTION----------------#
+    # Find and click Trade header nav from desktop
     def header_nav_trade_desktop(self):
         trade = self.browser.find_element(*self.TRADE_HEADER_DESKTOP)
         ActionChains(self.browser).move_to_element(trade).perform()
 
-    # Find and click Spot header nav from desktop
+    # Find and click Spot sub header under Trade from desktop
     def header_nav_spot_desktop(self):
         spot = self.browser.find_element(*self.SPOT_HEADER_DESKTOP)
         spot.click()
@@ -125,16 +136,13 @@ class ExchangeMarketsPage:
         burger.click()
         WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.TRADE_HEADER_MOBILE))
 
-    # Find and click Trader header nav from mobile
+    # Find and click Trade header nav from mobile
     def header_nav_trade_mobile(self):
         trade = self.browser.find_element(*self.TRADE_HEADER_MOBILE)
         trade.click()
         WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.SPOT_HEADER_MOBILE))
 
-    # Find and click Spot header nav from mobile
+    # Find and click Spot sub header under Trade from mobile
     def header_nav_spot_mobile(self):
         spot = self.browser.find_element(*self.SPOT_HEADER_MOBILE)
         spot.click()
-
-    def set_window(self):
-        self.browser.set_window_size(360, 800)

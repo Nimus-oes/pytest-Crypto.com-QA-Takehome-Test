@@ -35,11 +35,16 @@ def verify_pair_page(pair_page):
     assert 'ZIL/USDT' in pair_page.page_title(), "The pair not found on page title"
 
 
+@pytest.mark.parametrize('size', ['desktop', 'mobile'])
 @pytest.mark.parametrize('nav', ['USDT', 'All', 'Favorites'])
-def test_by_nav_items(browser, nav):
-    # Initialize market page object
+def test_by_nav_items(browser, nav, size):
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
+
+    # Test both desktop and mobile browsers. Default is desktop.
+    if size == 'mobile':
+        markets_page.set_mobile_window()
 
     # @Given the markets page is displayed
     # (1) Dismiss the cookies window
@@ -57,7 +62,7 @@ def test_by_nav_items(browser, nav):
         # Move into All section first
         markets_page.all_nav()
         # Then find and click favorite star icon to add the pair to the favorites
-        markets_page.add_favorite()
+        markets_page.add_to_favorites()
         # And move into Favorites section
         markets_page.fav_nav()
     # (2) Find and click ZIL/USDT pair item
@@ -69,9 +74,10 @@ def test_by_nav_items(browser, nav):
     verify_pair_page(pair_page)
 
 
+# Desktop only test
 @pytest.mark.parametrize('market', ['All', 'Spot'])
 def test_by_search_section(browser, market):
-    # Initialize market page object
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
@@ -101,7 +107,7 @@ def test_by_search_section(browser, market):
 
 
 def test_by_header_nav_desktop(browser):
-    # Initialize market page object
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
@@ -112,7 +118,7 @@ def test_by_header_nav_desktop(browser):
     verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
-    # (1) Find and click Trader header nav menu
+    # (1) Find and click Trade header nav menu
     markets_page.header_nav_trade_desktop()
     # (2) Find and click Spot sub header menu under Trade
     markets_page.header_nav_spot_desktop()
@@ -130,12 +136,12 @@ def test_by_header_nav_desktop(browser):
 
 
 def test_by_header_nav_mobile(browser):
-    # Initialize market page object
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
     # Set the window size to mobile
-    markets_page.set_window()
+    markets_page.set_mobile_window()
 
     # @Given the markets page is displayed
     # (1) Dismiss the cookies window
@@ -164,7 +170,7 @@ def test_by_header_nav_mobile(browser):
 
 
 def test_by_toggle_fav_desktop(browser):
-    # Initialize market page object
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
@@ -175,7 +181,7 @@ def test_by_toggle_fav_desktop(browser):
     verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
-    # (1) Find and click Trader header nav menu
+    # (1) Find and click Trade header nav menu
     markets_page.header_nav_trade_desktop()
     # (2) Find and click Spot sub header menu under Trade
     markets_page.header_nav_spot_desktop()
@@ -184,7 +190,7 @@ def test_by_toggle_fav_desktop(browser):
     # (4) Find and click the USDT navigation tab where ZIL/USDT pair is located
     pair_page.usdt_nav()
     # (5) Find and click favorite star icon to add the pair to the favorites
-    pair_page.add_fav()
+    pair_page.add_to_favorites()
     # (6) Find and click the Favorites navigation tab
     pair_page.fav_nav()
     # (7) Find and click ZIL/USDT pair item
@@ -197,12 +203,12 @@ def test_by_toggle_fav_desktop(browser):
 
 
 def test_by_toggle_fav_mobile(browser):
-    # Initialize market page object
+    # Initialize page objects
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
     # Set the window size to mobile
-    markets_page.set_window()
+    markets_page.set_mobile_window()
 
     # @Given the markets page is displayed
     # (1) Dismiss the cookies window
@@ -222,7 +228,7 @@ def test_by_toggle_fav_mobile(browser):
     # (5) Find and click the USDT navigation tab where ZIL/USDT pair is located
     pair_page.usdt_nav()
     # (6) Find and click favorite star icon to add the pair to the favorites
-    pair_page.add_fav()
+    pair_page.add_to_favorites()
     # (7) Find and click the Favorites navigation tab
     pair_page.fav_nav()
     # (8) Find and click ZIL/USDT pair item

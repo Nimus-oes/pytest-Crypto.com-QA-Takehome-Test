@@ -47,17 +47,17 @@ class TradePairPage:
         nav = self.browser.find_element(*self.TOGGLE_USDT_NAV)
         nav.click()
 
-    def add_fav(self):
+    def fav_nav(self):
+        fav = self.browser.find_element(*self.FAVORITES_NAV)
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.ZIL_USDT_PAIR))
+        fav.click()
+
+    def add_to_favorites(self):
         box = self.browser.find_element(*self.DROPDOWN_BOX)
         self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", box)
         WebDriverWait(self.browser, 10).until(EC.visibility_of_any_elements_located(self.ZIL_USDT_PAIR))
         star = self.browser.find_element(*self.FAVORITES_ICON)
         star.click()
-
-    def fav_nav(self):
-        fav = self.browser.find_element(*self.FAVORITES_NAV)
-        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.ZIL_USDT_PAIR))
-        fav.click()
 
     def zil_pair_toggle(self):
         box = self.browser.find_element(*self.DROPDOWN_BOX)
