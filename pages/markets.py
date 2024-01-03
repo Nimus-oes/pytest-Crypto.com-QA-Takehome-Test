@@ -19,9 +19,9 @@ class ExchangeMarketsPage:
     # Locators
     COOKIES = (By.CSS_SELECTOR, "[title='Accept Cookies']")
     SPOT_TAB = (By.CSS_SELECTOR, "button[class*='e-button--medium is-text active']")
-    USDT_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='USDT']")
-    ALL_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='All']")
-    FAVORITES_NAV = (By.XPATH, "//div[@class='e-tabs__nav-item']/span[text()='Favorites']")
+    USDT_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='USDT']")
+    ALL_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='All']")
+    FAVORITES_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='Favorites']")
     FAVORITES_ICON = (By.XPATH, "//*[name()='svg' and following-sibling::div/a[@href='/exchange/trade/ZIL_USDT']]")
     CATEGORIES_TOGGLE = (By.XPATH, "//div[@class='text']")
     ZIL_USDT_CATEGORY = (By.XPATH, "//div[@class='category'][contains(., 'L1/L2/Polkadot Parachains')]")
@@ -80,10 +80,7 @@ class ExchangeMarketsPage:
     def fav_nav(self):
         fav = self.browser.find_element(*self.FAVORITES_NAV)
         self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
-        try:
-            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.FAVORITES_NAV))
-        except:
-            time.sleep(3)
+        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.FAVORITES_NAV))
         fav.click()
 
     # Find and click favorite icon next to ZIL/USDT pair to add to favorites
@@ -145,4 +142,5 @@ class ExchangeMarketsPage:
     # Find and click Spot sub header under Trade from mobile
     def header_nav_spot_mobile(self):
         spot = self.browser.find_element(*self.SPOT_HEADER_MOBILE)
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(spot))
         spot.click()

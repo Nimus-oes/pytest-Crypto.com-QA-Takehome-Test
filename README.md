@@ -15,7 +15,24 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
 - Google Chrome
 - Mozilla Firefox is *not supported* due to markets page access issue  
 &nbsp;
-## Test Scope and Limits
+## Total 12 Test Cases 
+- `test_by_nav_items()` 
+  1. By **USDT** navigation menu on desktop
+  2. By **USDT** navigation menu on mobile
+  3. By **All** navigation menu on desktop
+  4. By **All** navigation menu on mobile
+  5. By **Favorites** navigation menu on desktop
+  6. By **Favorites** navigation menu on mobile
+- `test_by_search_section()`
+  1. By top **search** section > **All** market tab on desktop
+  2. By top **search** section > **Spot** market tab on desktop
+- `test_by_header_spot()`
+  1. By **Trade** header > **Spot** sub header > **USDT** navigation menu on desktop 
+  2. By **burger** menu > **Trade** header > **Spot** sub header > **USDT** navigation menu on mobile
+  3. By **Trade** header > **Spot** sub header > **Favorites** navigation menu on desktop
+  4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile
+
+## Limits
 - This test suite is specific to ZIL/USDT trade pair only, and it does **not** cover any other pairs. 
 - There are two ways to access favorites items for testing: (1) logging in to an account and accessing its favorite items, (2) adding the item to favorites and accessing the favorites. This test suite does not cover the option 1.
 - This test suite does not cover the 'Categories' option due to the technical issue  
