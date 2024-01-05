@@ -23,15 +23,15 @@ class TradePairPage:
     def __init__(self, browser):
         self.browser = browser
 
-    # Resources to verify the page title contains 'ZIL/USDT'
+    # Resources for verifying the page title contains 'ZIL/USDT'
     def page_title(self):
         return self.browser.title
 
-    # Resources to verify the page url contains 'ZIL_USDT'
+    # Resources for verifying the page url contains 'ZIL_USDT'
     def page_url(self):
         return self.browser.current_url
 
-    # Resources to verify the top toggle menu refers to 'ZIL/USDT'
+    # Resources for verifying the top toggle menu refers to 'ZIL/USDT'
     def top_pair(self, action):
         # Wait for the top toggle menu
         WebDriverWait(self.browser, 20).until(EC.text_to_be_present_in_element(self.TOP_PAIR_TOGGLE, '/'))

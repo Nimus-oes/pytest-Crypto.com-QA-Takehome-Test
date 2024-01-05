@@ -13,7 +13,7 @@ from pages.pair import TradePairPage
 import pytest
 
 
-# This is a method for common steps to verify the base page
+# Common steps for verifying the base page
 def verify_base_page(markets_page):
     # @Given the markets page is displayed
     markets_page.load()
@@ -25,7 +25,7 @@ def verify_base_page(markets_page):
     assert 'Spot' in markets_page.spot_tab(), "Spot market tab is not active"
 
 
-# This is a method for common steps to verify the pair page
+# Common steps for verifying the pair page
 def verify_pair_page(pair_page):
     # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
     assert 'ZIL/USDT' in pair_page.top_pair('verify'), "The pair not found on toggle menu"
@@ -35,6 +35,7 @@ def verify_pair_page(pair_page):
     assert 'ZIL/USDT' in pair_page.page_title(), "The pair not found on page title"
 
 
+@pytest.mark.nav
 @pytest.mark.parametrize('size', ['desktop', 'mobile'])
 @pytest.mark.parametrize('nav', ['USDT', 'All', 'Favorites'])
 def test_by_nav_items(browser, nav, size):
@@ -47,9 +48,6 @@ def test_by_nav_items(browser, nav, size):
         markets_page.set_mobile_window()
 
     # @Given the markets page is displayed
-    # (1) Dismiss the cookies window
-    # (2) Verify the base page url contains 'markets'
-    # (3) Verify the default market tab is set to 'Spot'
     verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
@@ -68,13 +66,12 @@ def test_by_nav_items(browser, nav, size):
     # (2) Find and click ZIL/USDT pair item
     markets_page.zil_pair_main()
 
-    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
-    # @And the page contains 'ZIL_USDT' in its url path
-    # @And the page title contains 'ZIL/USDT'
+    # @Then the page is redirected to 'ZIL/USDT'
     verify_pair_page(pair_page)
 
 
 # Desktop only test
+@pytest.mark.search
 @pytest.mark.parametrize('market', ['All', 'Spot'])
 def test_by_search_section(browser, market):
     # Initialize page objects
@@ -82,9 +79,6 @@ def test_by_search_section(browser, market):
     pair_page = TradePairPage(browser)
 
     # @Given the markets page is displayed
-    # (1) Dismiss the cookies window
-    # (2) Verify the base page url contains 'markets'
-    # (3) Verify the default market tab is set to 'Spot'
     verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
@@ -100,12 +94,11 @@ def test_by_search_section(browser, market):
     # (3) Find and click ZIL/USDT pair item
     markets_page.zil_pair_search()
 
-    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
-    # @And the page contains 'ZIL_USDT' in its url path
-    # @And the page title contains 'ZIL/USDT'
+    # @Then the page is redirected to 'ZIL/USDT'
     verify_pair_page(pair_page)
 
 
+@pytest.mark.header
 @pytest.mark.parametrize('size', ['desktop', 'mobile'])
 @pytest.mark.parametrize('nav', ['USDT', 'Favorites'])
 def test_by_header_spot(browser, nav, size):
@@ -117,9 +110,6 @@ def test_by_header_spot(browser, nav, size):
         markets_page.set_mobile_window()
 
     # @Given the markets page is displayed
-    # (1) Dismiss the cookies window
-    # (2) Verify the base page url contains 'markets'
-    # (3) Verify the default market tab is set to 'Spot'
     verify_base_page(markets_page)
 
     # @When the user clicks UI to get into ZIL/USDT page
@@ -147,7 +137,5 @@ def test_by_header_spot(browser, nav, size):
     # Find and click ZIL/USDT pair item
     pair_page.zil_pair_toggle()
 
-    # @Then the toggle menu on top of the redirected page refers to 'ZIL/USDT'
-    # @And the page contains 'ZIL_USDT' in its url path
-    # @And the page title contains 'ZIL/USDT'
+    # @Then the page is redirected to 'ZIL/USDT'
     verify_pair_page(pair_page)

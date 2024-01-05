@@ -3,13 +3,15 @@
 ## Test Target
 Navigating to ZIL/USDT page from crypto.com/exchange/markets  
 &nbsp;
-## Test Methodology
-- Behavior Driven Development  
+## Test Design
+- Behavior Driven Development
+- Page Object Model (POM) design pattern
 &nbsp;
 ## Tech Stack
-- Python
+- Python 3
 - pytest
-- Selenium  
+- Selenium
+- Chrome WebDriver
 &nbsp;
 ## Supported Browser
 - Google Chrome
@@ -31,12 +33,65 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
   2. By **burger** menu > **Trade** header > **Spot** sub header > **USDT** navigation menu on mobile
   3. By **Trade** header > **Spot** sub header > **Favorites** navigation menu on desktop
   4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile
+&nbsp;
 
 ## Limits
+- This test suite is specific to English language. Other language pages are not supported.
 - This test suite is specific to ZIL/USDT trade pair only, and it does **not** cover any other pairs. 
 - There are two ways to access favorites items for testing: (1) logging in to an account and accessing its favorite items, (2) adding the item to favorites and accessing the favorites. This test suite does not cover the option 1.
 - This test suite does not cover the 'Categories' option due to the technical issue  
 &nbsp;
+
+## How to Run the Tests
+### Run all tests in the test suite
+```
+python -m pytest
+```
+### Run tests by entry points
+The test suite is classified by three marks depending on their positions on the page: `nav`, `search`, and `header`
+- Tests by navigation items (6 test cases)
+```
+python -m pytest -m nav
+```
+- Tests by search section on top of the page (2 test cases)
+```
+python -m pytest -m search
+```
+- Tests by Trade > Spot menu on the header (4 test cases)
+```
+python -m pytest -m header
+```
+### Run all tests and save the report in html
+```
+python -m pytest --html={report_name}.html
+```
+### Run tests by entry points and save the report in html
+Replace `{mark}` with `nav`, `search`, or `header`
+```
+python -m pytest -m {mark} --html={report_name}.html
+```
+&nbsp;
+## Prerequisites
+- Install the latest Python build
+- Install the pip
+- Install the Selenium python package
+### Installing the Dependencies
+**Step 1**: Clone this repository and navigate to the code directory as shown below
+```
+[TODO]
+```
+**Step 2**: Create a virtual environment in your project folder
+```
+python3 -m venv .venv
+```
+**Step 3**: Activate the environment
+```
+source .venv/bin/activate
+```
+**Step 4** : Install the required packages from the cloned project directory
+```
+[TODO]
+```
 ___  
 &nbsp;
 ## Step 1: Defining the Behaviors
@@ -81,7 +136,7 @@ There are different UI elements on crypto.com/exchange/markets that users can cl
    - The page contains 'ZIL_USDT' in its url path
    - The page title contains 'ZIL/USDT'
    - The toggle menu on top of the page refers to 'ZIL/USDT'
-5. [TODO] Implement other test cases, reusing the common steps  
+5. Implement other test cases, reusing the common steps  
 &nbsp;
 ## How to Handle ElementNotInteractableException
 During the test development, I found many errors related to Element Not Interactable Exception whenever the browser tries to interact with the elements. There are three major solutions to tackle this exception.

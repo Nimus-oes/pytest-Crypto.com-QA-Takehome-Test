@@ -57,11 +57,11 @@ class ExchangeMarketsPage:
         ck = self.browser.find_element(*self.COOKIES)
         ck.send_keys(Keys.RETURN)
 
-    # Resources to verify the base page url
+    # Resources for verifying the base page url
     def url(self):
         return self.browser.current_url
 
-    # Resources to verify the default market of base page is set to Spot
+    # Resources for verifying the default market of base page is set to Spot
     def spot_tab(self):
         spot = self.browser.find_element(*self.SPOT_TAB)
         return spot.text
@@ -101,7 +101,7 @@ class ExchangeMarketsPage:
         ts = self.browser.find_element(*self.TOP_SEARCH_ICON)
         ActionChains(self.browser).move_to_element(ts).perform()
 
-    # Resources to verify the 'All' market tab in the top search section
+    # Resources for verifying the 'All' market tab in the top search section
     def top_search_all(self):
         market = self.browser.find_element(*self.TOP_SEARCH_ALL)
         return market.text
