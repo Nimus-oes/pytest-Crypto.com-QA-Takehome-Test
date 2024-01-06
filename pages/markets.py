@@ -80,7 +80,8 @@ class ExchangeMarketsPage:
     def fav_nav(self):
         fav = self.browser.find_element(*self.FAVORITES_NAV)
         self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
-        WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.FAVORITES_NAV))
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.FAVORITES_NAV))
+        time.sleep(2)
         fav.click()
 
     # Find and click favorite icon next to ZIL/USDT pair to add to favorites

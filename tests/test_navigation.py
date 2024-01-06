@@ -43,7 +43,7 @@ def test_by_nav_items(browser, nav, size):
     markets_page = ExchangeMarketsPage(browser)
     pair_page = TradePairPage(browser)
 
-    # Test both desktop and mobile browsers. Default is desktop.
+    # Test both desktop and mobile browsers. Default browser set in the fixture is desktop.
     if size == 'mobile':
         markets_page.set_mobile_window()
 

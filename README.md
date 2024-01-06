@@ -77,9 +77,9 @@ python -m pytest -n {number_of_threds}
 ```
 &nbsp;
 ## Prerequisites
-- Install the latest Python build
-- Install the pip
-- Install the Selenium python package
+- Install Python 3
+- Install pip
+- Install Selenium python package
 ### Installing the Dependencies
 **Step 1**: Clone this repository and navigate to the code directory as shown below
 ```
