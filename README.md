@@ -33,12 +33,13 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
   2. By **burger** menu > **Trade** header > **Spot** sub header > **USDT** navigation menu on mobile
   3. By **Trade** header > **Spot** sub header > **Favorites** navigation menu on desktop
   4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile
+
 &nbsp;
 
 ## Limits
 - This test suite is specific to English language. Other language pages are not supported.
 - This test suite is specific to ZIL/USDT trade pair only, and it does **not** cover any other pairs. 
-- There are two ways to access favorites items for testing: (1) logging in to an account and accessing its favorite items, (2) adding the item to favorites and accessing the favorites. This test suite does not cover the option 1.
+- There are two ways to access favorites items for testing: (1) logging into an account and accessing its favorite items, (2) adding the item to favorites on the spot without login and accessing the favorites. This test suite does not cover the option 1.
 - This test suite does not cover the 'Categories' option due to the technical issue  
 &nbsp;
 
@@ -48,7 +49,7 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
 python -m pytest
 ```
 ### Run tests by entry points
-The test suite is classified by three marks depending on their positions on the page: `nav`, `search`, and `header`
+The test suite is classified into three marks depending on their positions on the page: `nav`, `search`, and `header`
 - Tests by navigation items (6 test cases)
 ```
 python -m pytest -m nav
@@ -69,6 +70,10 @@ python -m pytest --html={report_name}.html
 Replace `{mark}` with `nav`, `search`, or `header`
 ```
 python -m pytest -m {mark} --html={report_name}.html
+```
+### Run tests in parallel
+```
+python -m pytest -n {number_of_threds}
 ```
 &nbsp;
 ## Prerequisites
