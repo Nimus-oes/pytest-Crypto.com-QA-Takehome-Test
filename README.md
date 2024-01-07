@@ -35,13 +35,13 @@ Page Object Model (POM) design pattern is applied
   5. By **Favorites** navigation menu on desktop
   6. By **Favorites** navigation menu on mobile  
   &nbsp;  
-  ![Test by navigation items](/screenshots/test_by_nav_items.png?raw=true)  
+  ![Test by navigation items](/.screenshots/test_by_nav_items.png?raw=true)  
   &nbsp;
 - `test_by_search_section()`
   1. By top **search** section > **All** market tab on desktop
   2. By top **search** section > **Spot** market tab on desktop  
 &nbsp;  
-![Test by search section](/screenshots/test_by_search_section.png?raw=true)  
+![Test by search section](/.screenshots/test_by_search_section.png?raw=true)  
 &nbsp;
 - `test_by_header_spot()`
   1. By **Trade** header > **Spot** sub header > **USDT** navigation menu on desktop 
@@ -49,8 +49,9 @@ Page Object Model (POM) design pattern is applied
   3. By **Trade** header > **Spot** sub header > **Favorites** navigation menu on desktop
   4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile  
 &nbsp;  
-![Test by header](/screenshots/test_by_header_desktop.png?raw=true)  
-![Test by header](/screenshots/test_by_header_mobile.png?raw=true)  
+![Test by header](/.screenshots/test_by_header_desktop.png?raw=true)  
+![Test by header](/.screenshots/test_by_header_mobile.png?raw=true)  
+![Test by header](/.screenshots/pair_toggle.png?raw=true)  
 &nbsp;
 ## Limits
 - This test suite is specific to English language. Other language pages are not supported.
