@@ -34,7 +34,7 @@ Page Object Model (POM) design pattern is applied
   4. By **All** navigation menu on mobile
   5. By **Favorites** navigation menu on desktop
   6. By **Favorites** navigation menu on mobile  
-  ![Test by navigation items](/screenshots/test_by_nav_items.png?raw=true "Test by navigation items")
+  <img src="/screenshots/test_by_nav_items.png?raw=true" alt="Test by navigation items" width="300" height="200">
 - `test_by_search_section()`
   1. By top **search** section > **All** market tab on desktop
   2. By top **search** section > **Spot** market tab on desktop
