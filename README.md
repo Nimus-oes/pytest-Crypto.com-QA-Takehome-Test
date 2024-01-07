@@ -3,21 +3,30 @@
 ## Test Target
 Navigating to ZIL/USDT page from crypto.com/exchange/markets  
 &nbsp;
-## Test Design
-- Behavior Driven Development
-- Page Object Model (POM) design pattern
+## Test Scenario
+This test suit follows the Behavior Driven Development principle
+1. Given: the markets page is displayed
+2. When: the user clicks UI to get into ZIL/USDT page
+   - The test can be separated into multiple test cases as per the different entry points
+3. Then: the redirected page contains 'ZIL_USDT' in its url path
+4. And: the page title contains 'ZIL/USDT'
+5. And: the toggle menu on top of the page refers to 'ZIL/USDT  
+&nbsp;
+## Test Design Pattern
+Page Object Model (POM) design pattern is applied
+  - `pages` contains the page objects for the markets and spot pair pages
+  - `tests` contains the shared fixtures and the test cases  
 &nbsp;
 ## Tech Stack
 - Python 3
 - pytest
 - Selenium
-- Chrome WebDriver
+- Chrome WebDriver  
 &nbsp;
 ## Supported Browser
-- Google Chrome
-- Mozilla Firefox is *not supported* due to markets page access issue  
+- Google Chrome  
 &nbsp;
-## Total 12 Test Cases 
+## Test Cases (Total 12)
 - `test_by_nav_items()` 
   1. By **USDT** navigation menu on desktop
   2. By **USDT** navigation menu on mobile
@@ -32,22 +41,51 @@ Navigating to ZIL/USDT page from crypto.com/exchange/markets
   1. By **Trade** header > **Spot** sub header > **USDT** navigation menu on desktop 
   2. By **burger** menu > **Trade** header > **Spot** sub header > **USDT** navigation menu on mobile
   3. By **Trade** header > **Spot** sub header > **Favorites** navigation menu on desktop
-  4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile
-
+  4. By **burger** menu > **Trade** header > **Spot** sub header > **Favorites** navigation menu on mobile  
 &nbsp;
-
 ## Limits
 - This test suite is specific to English language. Other language pages are not supported.
 - This test suite is specific to ZIL/USDT trade pair only, and it does **not** cover any other pairs. 
 - There are two ways to access favorites items for testing: (1) logging into an account and accessing its favorite items, (2) adding the item to favorites on the spot without login and accessing the favorites. This test suite does not cover the option 1.
 - This test suite does not cover the 'Categories' option due to the technical issue  
 &nbsp;
-
+## Setting Up the Project
+### Prerequisites
+Make sure these are already installed in your system
+- Python 3
+- pip
+- Chrome WebDriver  
+### Installing the Repo and Dependencies
+**Step 1**: Open your terminal and navigate to the directory where you want to clone this repository
+```
+cd path/to/your/directory
+```
+**Step 2**: Clone this repository and navigate to the repository directory  
+This might require your GitHub username and personal access tokens.
+```
+git clone https://github.com/Nimus-oes/Crypto.com-QA-Takehome-Test.git
+```
+```
+cd Crypto.com-QA-Takehome-Test
+```
+**Step 3**: Create a virtual environment
+```
+python3 -m venv .venv
+```
+**Step 4**: Activate the virtual environment
+```
+source .venv/bin/activate
+```
+**Step 5** : Install the required packages from the cloned repository
+```
+pip install -r requirements.txt
+```  
+&nbsp;
 ## How to Run the Tests
 ### Run all tests in the test suite
 ```
 python -m pytest
-```
+```  
 ### Run tests by entry points
 The test suite is classified into three marks depending on their positions on the page: `nav`, `search`, and `header`
 - Tests by navigation items (6 test cases)
@@ -74,75 +112,10 @@ python -m pytest -m {mark} --html={report_name}.html
 ### Run tests in parallel
 ```
 python -m pytest -n {number_of_threds}
-```
-&nbsp;
-## Prerequisites
-- Install Python 3
-- Install pip
-- Install Selenium python package
-### Installing the Dependencies
-**Step 1**: Clone this repository and navigate to the code directory as shown below
-```
-[TODO]
-```
-**Step 2**: Create a virtual environment in your project folder
-```
-python3 -m venv .venv
-```
-**Step 3**: Activate the environment
-```
-source .venv/bin/activate
-```
-**Step 4** : Install the required packages from the cloned project directory
-```
-[TODO]
-```
+```  
 ___  
 &nbsp;
-## Step 1: Defining the Behaviors
-1. Given: the markets page is displayed
-2. When: the user clicks UI to get into ZIL/USDT page
-   - The test can be separated into multiple test cases as per the different entry points
-3. Then: the redirected page contains 'ZIL_USDT' in its url path
-4. And: the page title contains 'ZIL/USDT'
-5. And: the toggle menu on top of the page refers to 'ZIL/USDT  
-&nbsp;
-## Step 2: Identifying the Entry Points
-There are different UI elements on crypto.com/exchange/markets that users can click on to access the ZIL/USDT page.
-
-- **By 'USDT' nav menu**: Click 'USDT' from the top navigation item > Select ZIL/USDT among the listed pairs
-- **By 'All' nav menu**: Click 'All' from the top navigation item > Select ZIL/USDT among the listed pairs
-- **By 'Favorites' nav menu**: Click 'Favorites' from the top navigation item > Select ZIL/USDT among the listed pairs (if any)
-- **By 'Categories' toggle menu**: Click 'Categories' toggle menu on top > Select 'L1/L2/Polkadot Parachains' > Select ZIL/USDT among the listed pairs
-- **By top search menu**: Only when screen width is over 991 px
-  - Click search icon on top > The top navigation menu 'All' is already selected > Select ZIL/USDT among the listed pairs 
-  - Click search icon on top > Select 'Spot' from the top navigation menu > Select ZIL/USDT among the listed pairs
-- **By 'Trade' > 'Spot' header nav menu**:
-  - For mobile (340~991 px): Click burger menu on top > Click 'Trade' menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
-  - For mobile (340~991 px): Click burger menu on top > Click 'Trade' menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)
-  - For desktop (over 991 px): Click 'Trade' navigation menu on top > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
-  - For desktop (over 991 px): Click 'Trade' navigation menu on top > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)
-- **By 'Trade' > 'Spot' footer nav menu**:
-  - For mobile (under 992 px): Click 'Trade' of the mobile footer menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
-  - For mobile (under 992 px): Click 'Trade' of the mobile footer menu > Select 'Spot' > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)
-  - For desktop (over 991 px): Click 'Spot' under the 'Trade' of the footer menu > Click the pair name toggle on top (ex: BTC/USD) > Select 'USDT' from the top navigation menu > Select ZIL/USDT
-  - For desktop (over 991 px): Click 'Spot' under the 'Trade' of the footer menu > Click the pair name toggle on top (ex: BTC/USD) > Select 'Favorites' from the top navigation menu > Select ZIL/USDT (if any)   
-&nbsp;
-## Step 3: Designing Test Suite Structure
-- `pages` contains the page objects for the markets and spot pair pages
-- `tests` contains the shared fixtures and the test cases  
-&nbsp;
-## Step 4: Implementing Test Cases
-1. Create page objects for markets and spot pair page
-2. Initialize a simple WebDriver instance with fixture and open crypto.com/exchange/markets page with it
-3. Take one of the entry points to the trade page and implement it with code
-   - Locate the 'USDT' navigation menu and click the ZIL/USDT pair item under it
-4. Verify the redirected page
-   - The page contains 'ZIL_USDT' in its url path
-   - The page title contains 'ZIL/USDT'
-   - The toggle menu on top of the page refers to 'ZIL/USDT'
-5. Implement other test cases, reusing the common steps  
-&nbsp;
+Below is the log for learnings and challenges that I encountered during this test development.
 ## How to Handle ElementNotInteractableException
 During the test development, I found many errors related to Element Not Interactable Exception whenever the browser tries to interact with the elements. There are three major solutions to tackle this exception.
 1. **Explicitly wait for the element to be interactable. Try adding more conditions for the wait if one is not enough.**
@@ -188,12 +161,15 @@ In order to interact with an SVG element via XPath in Selenium, `name()` or `loc
 &nbsp;
 ## Challenges and Solutions
 1. Markets page is not accessible from my location, South Korea presumably due to the geo restrictions
-> **Solution**: Used VPN for testing. This resolved the access issue with Chrome browser, however, the issue still remains with Firefox even with VPN.
+> **Solution**: Used VPN for testing. This resolved the access issue with Chrome browser  
+> **Remaining issue**: Access issue still remains with Firefox browser and headless mode in both Chrome and Firefox even with VPN.
 2. ElementNotInteractableException raised when clicking ZIL/USDT pair item
 > **Solution**: Clicked the pair item with send_keys() method instead of click()
 3. ElementNotInteractableException raised when clicking favorites star icon
 > **Solution**: After scrolling the element into viewport, hard slept for 2 seconds for the element to be interactable. Although hard sleep is not recommended for efficient testing, there was no workable solution I could find other than this (explicit wait didn't work for this element)
-4. Categories dropdown menu is not showing when clicked or mouse hovered
+4. ElementNotInteractableException raised when clicking favorites navigation item. The scrolling stopped at some point.
+> **Solution**: After scrolling the element into viewport, hard slept for 2 seconds for the scroll to be completed.
+5. Categories dropdown menu is not showing when clicked or mouse hovered
 > **Solution**: No solution found yet. 
 > 
 > Tried explicit wait, hard sleep, ActionChain, and JavaScript to trigger the hover effect but none of it worked.

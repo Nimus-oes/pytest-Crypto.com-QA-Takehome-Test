@@ -47,11 +47,13 @@ class TradePairPage:
         nav = self.browser.find_element(*self.TOGGLE_USDT_NAV)
         nav.click()
 
+    # Find and click Favorites nav menu inside the pair toggle
     def fav_nav(self):
         fav = self.browser.find_element(*self.FAVORITES_NAV)
         WebDriverWait(self.browser, 10).until(EC.visibility_of_element_located(self.ZIL_USDT_PAIR))
         fav.click()
 
+    # Find and click favorite icon next to ZIL/USDT pair to add to favorites
     def add_to_favorites(self):
         box = self.browser.find_element(*self.DROPDOWN_BOX)
         self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", box)
@@ -59,6 +61,7 @@ class TradePairPage:
         star = self.browser.find_element(*self.FAVORITES_ICON)
         star.click()
 
+    # Find and click ZIL/USDT pair item from the list inside the pair toggle
     def zil_pair_toggle(self):
         box = self.browser.find_element(*self.DROPDOWN_BOX)
         self.browser.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", box)
