@@ -33,7 +33,8 @@ Page Object Model (POM) design pattern is applied
   3. By **All** navigation menu on desktop
   4. By **All** navigation menu on mobile
   5. By **Favorites** navigation menu on desktop
-  6. By **Favorites** navigation menu on mobile
+  6. By **Favorites** navigation menu on mobile  
+  ![Test by navigation items](/screenshots/test_by_nav_items.png?raw=true "Test by navigation items")
 - `test_by_search_section()`
   1. By top **search** section > **All** market tab on desktop
   2. By top **search** section > **Spot** market tab on desktop
@@ -113,9 +114,11 @@ python -m pytest -m {mark} --html={report_name}.html
 ```
 python -m pytest -n {number_of_threds}
 ```  
+&nbsp;
 ___  
 &nbsp;
-Below is the log for learnings and challenges that I encountered during this test development.
+Below is the log for learnings and challenges that I had during this test development.  
+&nbsp;
 ## How to Handle ElementNotInteractableException
 During the test development, I found many errors related to Element Not Interactable Exception whenever the browser tries to interact with the elements. There are three major solutions to tackle this exception.
 1. **Explicitly wait for the element to be interactable. Try adding more conditions for the wait if one is not enough.**
