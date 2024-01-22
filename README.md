@@ -1,4 +1,4 @@
-# Crypto.com-QA-Takehome-Test
+# Crypto.com-QA-Takehome-Test-pytest
 
 ## Test Target
 Navigating to ZIL/USDT page from crypto.com/exchange/markets  
