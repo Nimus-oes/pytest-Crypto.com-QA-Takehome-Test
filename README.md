@@ -1,4 +1,4 @@
-# Crypto.com-QA-Takehome-Test-pytest
+# Crypto.com-QA-Takehome-Test with pytest
 
 ## Test Target
 Navigating to ZIL/USDT page from crypto.com/exchange/markets  
@@ -74,7 +74,7 @@ cd path/to/your/directory
 **Step 2**: Clone this repository and navigate to the repository directory  
 This might require your GitHub username and personal access tokens.
 ```
-git clone https://github.com/Nimus-oes/Crypto.com-QA-Takehome-Test.git
+git clone https://github.com/Nimus-oes/pytest-Crypto.com-QA-Takehome-Test.git
 ```
 ```
 cd Crypto.com-QA-Takehome-Test
