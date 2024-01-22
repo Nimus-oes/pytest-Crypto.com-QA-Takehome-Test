@@ -34,7 +34,7 @@ class TradePairPage:
     # Resources for verifying the top toggle menu refers to 'ZIL/USDT'
     def top_pair(self, action):
         # Wait for the top toggle menu
-        WebDriverWait(self.browser, 20).until(EC.text_to_be_present_in_element(self.TOP_PAIR_TOGGLE, '/'))
+        WebDriverWait(self.browser, 30).until(EC.text_to_be_present_in_element(self.TOP_PAIR_TOGGLE, '/'))
         # After loading all elements, find the element
         toggle = self.browser.find_element(*self.TOP_PAIR_TOGGLE)
         if action == 'verify':

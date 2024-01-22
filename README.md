@@ -4,7 +4,7 @@
 Navigating to ZIL/USDT page from crypto.com/exchange/markets  
 &nbsp;
 ## Test Scenario
-This test suit follows the Behavior Driven Development principle
+This test suite follows the Behavior Driven Development process
 1. Given: the markets page is displayed
 2. When: the user clicks UI to get into ZIL/USDT page
    - The test can be separated into multiple test cases as per the different entry points
@@ -57,7 +57,8 @@ Page Object Model (POM) design pattern is applied
 - This test suite is specific to English language. Other language pages are not supported.
 - This test suite is specific to ZIL/USDT trade pair only, and it does **not** cover any other pairs. 
 - There are two ways to access favorites items for testing: (1) logging into an account and accessing its favorite items, (2) adding the item to favorites on the spot without login and accessing the favorites. This test suite does not cover the option 1.
-- This test suite does not cover the 'Categories' option due to the technical issue  
+- The test suite does not cover the 'Categories' option due to the technical issue that fails to show dropdown content.
+- The test suite does not cover the footer Trade > Spot option due to the spot page inaccessible issue  
 &nbsp;
 ## Setting Up the Project
 ### Prerequisites
@@ -179,9 +180,11 @@ In order to interact with an SVG element via XPath in Selenium, `name()` or `loc
 > **Solution**: Clicked the pair item with send_keys() method instead of click()
 3. ElementNotInteractableException raised when clicking favorites star icon
 > **Solution**: After scrolling the element into viewport, hard slept for 2 seconds for the element to be interactable. Although hard sleep is not recommended for efficient testing, there was no workable solution I could find other than this (explicit wait didn't work for this element)
-4. ElementNotInteractableException raised when clicking favorites navigation item. The scrolling stopped at some point.
-> **Solution**: After scrolling the element into viewport, hard slept for 2 seconds for the scroll to be completed.
-5. Categories dropdown menu is not showing when clicked or mouse hovered
+4. Categories dropdown menu is not showing when clicked or mouse hovered
 > **Solution**: No solution found yet. 
 > 
 > Tried explicit wait, hard sleep, ActionChain, and JavaScript to trigger the hover effect but none of it worked.
+5. When tried to access footer Trade > Spot menu, the newly opened page is redirected to crypto.com/exchange again. Spot page is not accessible with footer navigation.
+> **Solution**: No solution found yet. Tried to change the url again in the new window but didn't work.  
+> 
+&nbsp;

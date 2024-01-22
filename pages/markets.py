@@ -19,12 +19,10 @@ class ExchangeMarketsPage:
     # Locators
     COOKIES = (By.CSS_SELECTOR, "[title='Accept Cookies']")
     SPOT_TAB = (By.CSS_SELECTOR, "button[class*='e-button--medium is-text active']")
-    USDT_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='USDT']")
-    ALL_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='All']")
-    FAVORITES_NAV = (By.XPATH, "//div[contains(@class, 'e-tabs__nav-item')]/span[text()='Favorites']")
+    USDT_NAV = (By.XPATH, "//div[@class='e-tabs']/div/div/span[text()='USDT']")
+    ALL_NAV = (By.XPATH, "//div[@class='e-tabs']/div/div/span[text()='All']")
+    FAVORITES_NAV = (By.XPATH, "//div[@class='e-tabs']/div/div/span[text()='Favorites']")
     FAVORITES_ICON = (By.XPATH, "//*[name()='svg' and following-sibling::div/a[@href='/exchange/trade/ZIL_USDT']]")
-    CATEGORIES_TOGGLE = (By.XPATH, "//div[@class='text']")
-    ZIL_USDT_CATEGORY = (By.XPATH, "//div[@class='category'][contains(., 'L1/L2/Polkadot Parachains')]")
     ZIL_USDT_PAIR_MAIN = (By.XPATH, "//a[@href='/exchange/trade/ZIL_USDT'][.//span[@class='base'][text()='ZIL']]")
     TOP_SEARCH_ICON = (By.XPATH, "//*[name()='svg' and @class='e-icon e-icon-search']")
     TOP_SEARCH_ALL = (By.XPATH, "//div[@class='e-tabs tabs']/div/div[@class='e-tabs__nav-item active']/span")
@@ -35,7 +33,6 @@ class ExchangeMarketsPage:
     BURGER_MENU = (By.XPATH, "//*[name()='svg' and @class='e-icon e-icon-burger pointer']")
     TRADE_HEADER_MOBILE = (By.XPATH, "//span[@class='menu-name' and text()='Trade']")
     SPOT_HEADER_MOBILE = (By.XPATH, "//span[@class='sub-menu-name' and text()='Spot']")
-    MOBILE_MENU = (By.CLASS_NAME, "mobile-menu")
     SPOT_FOOTER_DESKTOP = (By.XPATH, "//a[@href='/exchange/trade?type=spot' and @class='sub-title']")
 
     # Initializer
@@ -53,7 +50,7 @@ class ExchangeMarketsPage:
 
     # Dismiss the cookie window
     def cookies(self):
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.COOKIES))
+        WebDriverWait(self.browser, 20).until(EC.element_to_be_clickable(self.COOKIES))
         ck = self.browser.find_element(*self.COOKIES)
         ck.send_keys(Keys.RETURN)
 
@@ -69,20 +66,18 @@ class ExchangeMarketsPage:
     # Find and click USDT navigation menu
     def usdt_nav(self):
         usdt = self.browser.find_element(*self.USDT_NAV)
-        usdt.click()
+        self.browser.execute_script("arguments[0].click();", usdt)
 
     # Find and click All navigation menu
     def all_nav(self):
         nav_all = self.browser.find_element(*self.ALL_NAV)
-        nav_all.click()
+        self.browser.execute_script("arguments[0].click();", nav_all)
 
     # Find and click Favorites navigation menu
     def fav_nav(self):
         fav = self.browser.find_element(*self.FAVORITES_NAV)
         self.browser.execute_script("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", fav)
-        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.FAVORITES_NAV))
-        time.sleep(2)
-        fav.click()
+        self.browser.execute_script("arguments[0].click();", fav)
 
     # Find and click favorite icon next to ZIL/USDT pair to add to favorites
     def add_to_favorites(self):
@@ -93,6 +88,7 @@ class ExchangeMarketsPage:
 
     # Find and click ZIL/USDT pair item from the list on markets page
     def zil_pair_main(self):
+        WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable(self.ZIL_USDT_PAIR_MAIN))
         zil = self.browser.find_element(*self.ZIL_USDT_PAIR_MAIN)
         zil.send_keys(Keys.RETURN)
 

@@ -7,9 +7,6 @@ The tests follow below behaviors:
     @And the page contains 'ZIL_USDT' in its url path
     @And the page title contains 'ZIL/USDT'
 """
-
-from pages.markets import ExchangeMarketsPage
-from pages.pair import TradePairPage
 import pytest
 
 
@@ -38,11 +35,7 @@ def verify_pair_page(pair_page):
 @pytest.mark.nav
 @pytest.mark.parametrize('size', ['desktop', 'mobile'])
 @pytest.mark.parametrize('nav', ['USDT', 'All', 'Favorites'])
-def test_by_nav_items(browser, nav, size):
-    # Initialize page objects
-    markets_page = ExchangeMarketsPage(browser)
-    pair_page = TradePairPage(browser)
-
+def test_by_nav_items(markets_page, pair_page, nav, size):
     # Test both desktop and mobile browsers. Default browser set in the fixture is desktop.
     if size == 'mobile':
         markets_page.set_mobile_window()
@@ -73,11 +66,7 @@ def test_by_nav_items(browser, nav, size):
 # Desktop only test
 @pytest.mark.search
 @pytest.mark.parametrize('market', ['All', 'Spot'])
-def test_by_search_section(browser, market):
-    # Initialize page objects
-    markets_page = ExchangeMarketsPage(browser)
-    pair_page = TradePairPage(browser)
-
+def test_by_search_section(markets_page, pair_page, market):
     # @Given the markets page is displayed
     verify_base_page(markets_page)
 
@@ -101,11 +90,8 @@ def test_by_search_section(browser, market):
 @pytest.mark.header
 @pytest.mark.parametrize('size', ['desktop', 'mobile'])
 @pytest.mark.parametrize('nav', ['USDT', 'Favorites'])
-def test_by_header_spot(browser, nav, size):
-    # Initialize page objects
-    markets_page = ExchangeMarketsPage(browser)
-    pair_page = TradePairPage(browser)
-
+def test_by_header_spot(markets_page, pair_page, nav, size):
+    # Test both desktop and mobile browsers. Default browser set in the fixture is desktop.
     if size == 'mobile':
         markets_page.set_mobile_window()
 
